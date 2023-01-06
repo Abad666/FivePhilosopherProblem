@@ -1,0 +1,25 @@
+Problem pięciu filozofów - Znany również jako problem ucztujących filozofów.
+Jest przykładem zadania związanego z synchronizacją procesów. Jest ono teoretycznym wyjaśnieniem
+zakleszczenia i odebrania innym wątkom, reprezentowanym przez filozofów, dostępu do korzystania ze
+współdzielonych zasobów (widelców). Zakładamy, że jest pięcioro filozofów chcących jeść spaghetti, oraz tyle samo widelców,
+każdy z nich ma dwie czynności; myślenie oraz jedzenie. W przypadku jedzenia każdy z nich musi
+podnieść dokładnie dwa widelce, oraz nie mogą wziąć widelca z drugiego końca stołu.
+Ponad to, nie rozmawiają oni ze sobą, przez co w przypadku wzięcia jednego z widelców
+i czekając na drugi może dojść do zakleszczenia ich wszystkich. Rozwiązań tego problemu jest kilka,
+jednak ja skupię się na jednym konkretnym.
+
+Rozwiązanie przy użyciu hierarchii zasobów.
+Załóżmy, że każdy z widelców ma swój przypisany indeks, osobiście dla ułatwienia stworzyłem
+statyczną tablicę dzięki której w przypadku każdego filozofa mogę sprawdzać indeks widelca znajdującego
+się po jego lewej i prawej stronie. Ponad to, każdy z filozofów ma przypisane do siebie konkretne widelce,
+przez co unikam sytuacji, w której filozof chciałby sięgnąć po widelec znajdujący się na drugim końcu stołu.
+Również sam widelec jako obiekt ma zmienną typu boolean, który pokazuje czy jest on aktualnie dostępny do podniesienia, czy nie,
+a filozof jest w stanie podnieść widelce tylko w momencie, w którym obydwa przypisane do niego widelce są aktualnie wolne.
+W przypadku gdy filozof chce podnieść widelec, najpierw podnosi ten z mniejszym indeksem,
+a dopiero potem z większym, a oddają je w odwrotnej kolejności. Plusem tego rozwiązania jest to,
+że widelec z największym indeksem jest dostępny tylko dla jednego z filozofów, dzięki czemu kiedy skończy jeść,
+to odłoży najpierw tenże widelec, a potem odłoży widelec z mniejszym indeksem umożliwiając jego użycie innym filozofom.
+
+Jak widać dzięki ilustracji graficznej zawartej w programie zapobiega to zakleszczeniu, gdy filozof jest
+w kolorze czerwonym, to jest on w stanie myślenia, gdy jest on w kolorze zielonym jest on w stanie konsumpcji,
+a nigdy nie widzimy wszystkich filozofów w stanie zakleszczenia (wszyscy wzięli widelec i nie chcą go puścić przez co nie zmienia się ich stan)
